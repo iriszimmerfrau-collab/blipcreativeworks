@@ -18,7 +18,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "create">("login");
   const [error, setError] = useState("");
-  const { firebaseUser, profile, candidate, isAdmin, signInEmail, createEmailAccount, signInGoogle } = useAuth();
+  const { firebaseUser, profile, candidate, loading, isAdmin, signInEmail, createEmailAccount, signInGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const inviteToken = new URLSearchParams(location.search).get("invite");
@@ -28,10 +28,10 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    if (!firebaseUser || !profile) return;
+    if (loading || !firebaseUser || !profile) return;
     if (isAdmin) navigate("/admin", { replace: true });
     else navigate(candidate ? "/candidate/welcome" : "/candidate/intake", { replace: true });
-  }, [candidate, firebaseUser, isAdmin, navigate, profile]);
+  }, [candidate, firebaseUser, isAdmin, loading, navigate, profile]);
 
   async function onSubmit(values: LoginForm) {
     setError("");

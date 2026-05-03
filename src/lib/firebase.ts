@@ -1,9 +1,11 @@
 import { initializeApp, type FirebaseOptions } from "firebase/app";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import {
+  browserLocalPersistence,
   connectAuthEmulator,
   getAuth,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  setPersistence
 } from "firebase/auth";
 import {
   connectFirestoreEmulator,
@@ -39,6 +41,7 @@ if (import.meta.env.VITE_ENABLE_APP_CHECK === "true" && import.meta.env.VITE_FIR
 }
 
 export const auth = getAuth(app);
+void setPersistence(auth, browserLocalPersistence).catch(() => undefined);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app, import.meta.env.VITE_FUNCTION_REGION || "us-central1");

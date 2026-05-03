@@ -72,12 +72,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let unsubUser: () => void = () => undefined;
-    let unsubCandidate: () => void = () => undefined;
+    let cleanupSession: () => void = () => undefined;
 
     const unsubAuth = onAuthStateChanged(auth, async (user) => {
-      unsubUser();
-      unsubCandidate();
+      cleanupSession();
+      cleanupSession = () => undefined;
       setLoading(true);
       setFirebaseUser(user);
       setProfile(null);
@@ -88,21 +87,53 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      await syncUserProfile(user);
+      let active = true;
+      let profileReady = false;
+      let candidateReady = false;
+      let unsubUser: () => void = () => undefined;
+      let unsubCandidate: () => void = () => undefined;
+      cleanupSession = () => {
+        active = false;
+        unsubUser();
+        unsubCandidate();
+      };
+
+      const markReady = () => {
+        if (active && profileReady && candidateReady) {
+          setLoading(false);
+        }
+      };
+
+      try {
+        await syncUserProfile(user);
+      } catch {
+        if (active) setLoading(false);
+        return;
+      }
 
       unsubUser = onSnapshot(doc(db, "users", user.uid), (snapshot) => {
+        if (!snapshot.exists() && snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites) return;
         setProfile(snapshot.exists() ? (snapshot.data() as UserProfile) : null);
-        setLoading(false);
+        profileReady = true;
+        markReady();
+      }, () => {
+        profileReady = true;
+        markReady();
       });
       unsubCandidate = onSnapshot(doc(db, "candidates", user.uid), (snapshot) => {
+        if (!snapshot.exists() && snapshot.metadata.fromCache && !snapshot.metadata.hasPendingWrites) return;
         setCandidate(snapshot.exists() ? (snapshot.data() as Candidate) : null);
+        candidateReady = true;
+        markReady();
+      }, () => {
+        candidateReady = true;
+        markReady();
       });
     });
 
     return () => {
       unsubAuth();
-      unsubUser();
-      unsubCandidate();
+      cleanupSession();
     };
   }, []);
 
