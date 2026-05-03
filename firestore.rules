@@ -1,0 +1,160 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userRole() {
+      return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        : null;
+    }
+
+    function isAdmin() {
+      return userRole() in ['admin', 'manager'];
+    }
+
+    function isOwner(candidateId) {
+      return signedIn() && request.auth.uid == candidateId;
+    }
+
+    function ownsCandidateField() {
+      return signedIn() && request.resource.data.candidateId == request.auth.uid;
+    }
+
+    function existingOwnsCandidateField() {
+      return signedIn() && resource.data.candidateId == request.auth.uid;
+    }
+
+    function onlyCandidateSafeCommissionFields() {
+      return request.resource.data.diff(resource.data).changedKeys().hasOnly([
+        'status',
+        'adminNotes',
+        'updatedAt'
+      ]) == false;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && request.resource.data.role == 'candidate';
+      allow update: if isAdmin()
+        || (isOwner(userId)
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.diff(resource.data).changedKeys().hasOnly(['email', 'displayName', 'lastLoginAt']));
+      allow delete: if isAdmin();
+    }
+
+    match /candidates/{candidateId} {
+      allow read: if isOwner(candidateId) || isAdmin();
+      allow create: if isOwner(candidateId) || isAdmin();
+      allow update: if isAdmin()
+        || (isOwner(candidateId)
+          && request.resource.data.uid == resource.data.uid
+          && (!request.resource.data.diff(resource.data).changedKeys().hasAny(['status'])
+            || request.resource.data.status in ['terms_pending', 'training', 'active_test', 'final_submitted'])
+          && !request.resource.data.diff(resource.data).changedKeys().hasAny([
+            'assignedManagerId',
+            'score',
+            'riskFlags',
+            'managerOwner'
+          ]));
+      allow delete: if isAdmin();
+    }
+
+    match /trainingProgress/{progressId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create: if ownsCandidateField() || isAdmin();
+      allow update: if existingOwnsCandidateField() || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /prospects/{prospectId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create: if ownsCandidateField() || isAdmin();
+      allow update: if isAdmin()
+        || (existingOwnsCandidateField()
+          && request.resource.data.candidateId == resource.data.candidateId
+          && !request.resource.data.diff(resource.data).changedKeys().hasAny(['adminScore', 'verifiedBy']));
+      allow delete: if isAdmin();
+    }
+
+    match /dailyReports/{reportId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create: if ownsCandidateField() || isAdmin();
+      allow update: if isAdmin()
+        || (existingOwnsCandidateField()
+          && request.resource.data.candidateId == resource.data.candidateId
+          && request.resource.data.status == resource.data.status
+          && request.resource.data.managerNotes == resource.data.managerNotes);
+      allow delete: if isAdmin();
+    }
+
+    match /conversions/{conversionId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create: if ownsCandidateField()
+        && request.resource.data.status == 'submitted';
+      allow update: if isAdmin()
+        || (existingOwnsCandidateField()
+          && request.resource.data.candidateId == resource.data.candidateId
+          && request.resource.data.status == resource.data.status
+          && request.resource.data.verifiedBy == resource.data.verifiedBy
+          && request.resource.data.verifiedAt == resource.data.verifiedAt);
+      allow delete: if isAdmin();
+    }
+
+    match /commissions/{commissionId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create: if ownsCandidateField()
+        && request.resource.data.status in ['draft', 'submitted', 'pending_verification'];
+      allow update: if isAdmin()
+        || (existingOwnsCandidateField()
+          && request.resource.data.candidateId == resource.data.candidateId
+          && request.resource.data.status in ['draft', 'submitted', 'pending_verification']
+          && resource.data.status in ['draft', 'submitted', 'pending_verification']
+          && !request.resource.data.diff(resource.data).changedKeys().hasAny(['approvedAmount', 'adminNotes', 'paidAt']));
+      allow delete: if isAdmin();
+    }
+
+    match /contentBlocks/{blockId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.published == true);
+      allow write: if isAdmin();
+    }
+
+    match /contentBlockVersions/{versionId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /scriptTemplates/{scriptId} {
+      allow read: if signedIn() && resource.data.active == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /settings/{settingsId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    match /managerNotes/{noteId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /finalSubmissions/{submissionId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create: if ownsCandidateField();
+      allow update, delete: if isAdmin();
+    }
+
+    match /invites/{inviteId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /auditLogs/{logId} {
+      allow read: if existingOwnsCandidateField() || isAdmin();
+      allow create: if signedIn() && (request.resource.data.candidateId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+  }
+}
