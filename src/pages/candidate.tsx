@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Badge, Button, Card, EmptyState, Field, Input, PageHeader, ProgressBar, Select, StatCard, Textarea } from "../components/ui";
-import { dailyPlan, defaultSettings, legalCopy, localOutreachGuidance, messageQualityChecklist, prospectingResources, roleLabels, scriptTemplates, termsChecklist, trackCards, trainingModules } from "../data/defaults";
+import { blipIdeaCategories, chromonnoProductGuide, dailyPlan, defaultSettings, faqPlaybook, legalCopy, localOutreachGuidance, messageQualityChecklist, prospectingResources, roleLabels, scriptTemplates, sourceMaterials, termsChecklist, trackCards, trainingModules } from "../data/defaults";
 import { useCollectionData } from "../hooks/useFirestore";
 import { useAuth, type CandidateIntakeInput } from "../lib/auth";
 import { db, functions } from "../lib/firebase";
@@ -306,6 +306,48 @@ export function TrainingPage() {
                 <div className="mt-3 space-y-2 text-sm leading-6 text-muted">
                   {module.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </div>
+                {(module.sourceMaterials?.length || module.keyActions?.length || module.practice?.length || module.redFlags?.length || module.passStandard) && (
+                  <div className="mt-5 grid gap-3 md:grid-cols-2">
+                    {module.sourceMaterials?.length ? (
+                      <div className="rounded-md border border-borderline bg-ink p-4">
+                        <p className="font-semibold text-white">Source materials</p>
+                        <ul className="mt-2 space-y-1 text-sm leading-6 text-muted">
+                          {module.sourceMaterials.map((item) => <li key={item}>- {item}</li>)}
+                        </ul>
+                      </div>
+                    ) : null}
+                    {module.keyActions?.length ? (
+                      <div className="rounded-md border border-borderline bg-ink p-4">
+                        <p className="font-semibold text-white">What to do</p>
+                        <ul className="mt-2 space-y-1 text-sm leading-6 text-muted">
+                          {module.keyActions.map((item) => <li key={item}>- {item}</li>)}
+                        </ul>
+                      </div>
+                    ) : null}
+                    {module.practice?.length ? (
+                      <div className="rounded-md border border-borderline bg-ink p-4">
+                        <p className="font-semibold text-white">Practice drill</p>
+                        <ul className="mt-2 space-y-1 text-sm leading-6 text-muted">
+                          {module.practice.map((item) => <li key={item}>- {item}</li>)}
+                        </ul>
+                      </div>
+                    ) : null}
+                    {module.redFlags?.length ? (
+                      <div className="rounded-md border border-danger/40 bg-danger/10 p-4">
+                        <p className="font-semibold text-danger">Red flags</p>
+                        <ul className="mt-2 space-y-1 text-sm leading-6 text-danger/90">
+                          {module.redFlags.map((item) => <li key={item}>- {item}</li>)}
+                        </ul>
+                      </div>
+                    ) : null}
+                    {module.passStandard ? (
+                      <div className="rounded-md border border-green/30 bg-green/10 p-4 md:col-span-2">
+                        <p className="font-semibold text-green">Pass standard</p>
+                        <p className="mt-2 text-sm leading-6 text-green/90">{module.passStandard}</p>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
                 <ul className="mt-4 grid gap-2 text-sm text-white md:grid-cols-3">
                   {module.checklist.map((item) => (
                     <li key={item} className="rounded-md border border-borderline bg-ink p-3">{item}</li>
@@ -396,6 +438,13 @@ export function ProspectingPage() {
           <ul className="mt-4 space-y-2 text-sm leading-6 text-muted">
             {localOutreachGuidance.map((item) => <li key={item} className="rounded-md border border-borderline bg-ink p-3">{item}</li>)}
           </ul>
+          <h2 className="mt-8 text-xl font-semibold">Blip idea-bank categories</h2>
+          <p className="mt-2 text-sm leading-6 text-muted">Use these categories to find founder problems and write smarter discovery questions.</p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {blipIdeaCategories.map((category) => (
+              <div key={category} className="rounded-md border border-borderline bg-ink p-4 text-sm leading-6 text-muted">{category}</div>
+            ))}
+          </div>
         </Card>
         <Card>
           <h3 className="text-lg font-semibold">Message quality checklist</h3>
@@ -1045,6 +1094,33 @@ export function ResourcesPage() {
               </a>
             ))}
           </div>
+          <h2 className="mt-8 text-xl font-semibold">Provided material playbook</h2>
+          <div className="mt-4 grid gap-3">
+            {sourceMaterials.map((material) => (
+              <div key={material.file} className="rounded-md border border-borderline bg-ink p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="font-semibold">{material.title}</p>
+                    <p className="mt-1 text-xs text-blue">{material.file}</p>
+                  </div>
+                  <Badge tone="info">source</Badge>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-muted">{material.use}</p>
+                <p className="mt-2 text-sm leading-6 text-gold">{material.whenToShare}</p>
+              </div>
+            ))}
+          </div>
+          <h2 className="mt-8 text-xl font-semibold">Chromonno product guide</h2>
+          <div className="mt-4 grid gap-3">
+            {chromonnoProductGuide.map((item) => (
+              <div key={item.category} className="rounded-md border border-borderline bg-ink p-4">
+                <p className="font-semibold">{item.category}</p>
+                <p className="mt-2 text-sm leading-6 text-white">{item.products}</p>
+                <p className="mt-2 text-sm leading-6 text-muted">{item.buyerFit}</p>
+                <p className="mt-2 text-sm leading-6 text-gold">{item.notes}</p>
+              </div>
+            ))}
+          </div>
         </Card>
         <div className="space-y-5">
           <Card>
@@ -1059,6 +1135,17 @@ export function ResourcesPage() {
             <h2 className="text-xl font-semibold">Local outreach guidance</h2>
             <div className="mt-4 space-y-2 text-sm leading-6 text-muted">
               {localOutreachGuidance.map((item) => <p key={item} className="rounded-md border border-borderline bg-ink p-3">{item}</p>)}
+            </div>
+          </Card>
+          <Card>
+            <h2 className="text-xl font-semibold">FAQ answers</h2>
+            <div className="mt-4 space-y-3">
+              {faqPlaybook.map((item) => (
+                <div key={item.question} className="rounded-md border border-borderline bg-ink p-3">
+                  <p className="font-semibold text-white">{item.question}</p>
+                  <p className="mt-2 text-sm leading-6 text-muted">{item.answer}</p>
+                </div>
+              ))}
             </div>
           </Card>
         </div>

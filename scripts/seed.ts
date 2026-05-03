@@ -4,10 +4,14 @@ import { FieldValue, getFirestore } from "firebase-admin/firestore";
 import {
   dailyPlan,
   defaultSettings,
+  blipIdeaCategories,
+  chromonnoProductGuide,
+  faqPlaybook,
   legalCopy,
   localOutreachGuidance,
   prospectingResources,
   scriptTemplates,
+  sourceMaterials,
   termsChecklist,
   trainingModules
 } from "../src/data/defaults";
@@ -73,13 +77,53 @@ async function seedContent() {
   await setBlock("daily-plan", "7-day daily plan", "training", dailyPlan.map((day) => `Day ${day.day}: ${day.title}\n${day.tasks.join("\n")}`).join("\n\n"));
   await setBlock("prospecting-resources", "Prospecting resources", "resources", prospectingResources.map((item) => `${item.title}: ${item.url}`).join("\n"));
   await setBlock("local-outreach", "Local outreach guidance", "resources", localOutreachGuidance.join("\n"));
+  await setBlock(
+    "source-material-playbook",
+    "Provided material playbook",
+    "resources",
+    sourceMaterials.map((item) => `${item.title} (${item.file})\nUse: ${item.use}\nWhen to share: ${item.whenToShare}`).join("\n\n")
+  );
+  await setBlock(
+    "blip-idea-categories",
+    "Blip idea-bank categories",
+    "training",
+    blipIdeaCategories.map((item) => `- ${item}`).join("\n")
+  );
+  await setBlock(
+    "chromonno-product-guide",
+    "Chromonno product guide",
+    "resources",
+    chromonnoProductGuide.map((item) => `${item.category}\nProducts: ${item.products}\nBuyer fit: ${item.buyerFit}\nNotes: ${item.notes}`).join("\n\n")
+  );
+  await setBlock(
+    "candidate-faq-playbook",
+    "Candidate FAQ playbook",
+    "faq",
+    faqPlaybook.map((item) => `Q: ${item.question}\nA: ${item.answer}`).join("\n\n")
+  );
 
   for (const module of trainingModules) {
+    const body = [
+      ...module.body,
+      module.sourceMaterials?.length ? "\nSource materials:" : "",
+      ...(module.sourceMaterials || []).map((item) => `- ${item}`),
+      module.keyActions?.length ? "\nWhat to do:" : "",
+      ...(module.keyActions || []).map((item) => `- ${item}`),
+      module.practice?.length ? "\nPractice drill:" : "",
+      ...(module.practice || []).map((item) => `- ${item}`),
+      module.redFlags?.length ? "\nRed flags:" : "",
+      ...(module.redFlags || []).map((item) => `- ${item}`),
+      module.passStandard ? "\nPass standard:" : "",
+      module.passStandard || "",
+      "\nChecklist:",
+      ...module.checklist.map((item) => `- ${item}`)
+    ].filter(Boolean).join("\n");
+
     await setBlock(
       `training-${module.id}`,
       module.title,
       "training",
-      [...module.body, "", "Checklist:", ...module.checklist].join("\n")
+      body
     );
   }
 }
