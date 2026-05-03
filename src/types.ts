@@ -56,7 +56,6 @@ export type TrainingModule = {
   minutes: number;
   body: string[];
   checklist: string[];
-  sourceMaterials?: string[];
   keyActions?: string[];
   practice?: string[];
   passStandard?: string;

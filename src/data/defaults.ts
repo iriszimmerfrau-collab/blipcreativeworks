@@ -50,7 +50,7 @@ export const trackCards = [
       "For fashion buyers, shops, communities, gift buyers, Instagram audiences, WhatsApp groups, local businesses, and people interested in creative clothing collections.",
     prospects: ["Fashion buyers", "Local shops", "Student communities", "Gift buyers", "Instagram audiences", "Creative product buyers"],
     note:
-      "Physical samples cannot be shipped to candidates because of shipping timing. Use the online brand page, product visuals, brochure, catalog, and approved scripts."
+      "Physical samples cannot be shipped to candidates because of shipping timing. Use the online brand page, approved product visuals, product details, and approved scripts."
   }
 ] as const;
 
@@ -59,7 +59,6 @@ export const trainingModules: TrainingModule[] = [
     id: "role-performance-standard",
     title: "Role and performance standard",
     minutes: 14,
-    sourceMaterials: ["00_Welcome.pdf", "08_Job.txt"],
     body: [
       "You are entering a practical business development assessment. The work is remote, flexible, independent contractor work. The role labels are Business Development Associate, Startup Partnership Associate, Growth Partner, Account Executive, and Sales / referral partner.",
       "The test is not a theory quiz. It checks how you identify prospects, start professional conversations, match needs to the right offer, close valid commitments, and report evidence. The original test target is 2 successful consumers in 7 days, and the daily operating targets in this portal are built to push serious effort.",
@@ -83,44 +82,35 @@ export const trainingModules: TrainingModule[] = [
     checklist: ["I understand the assessment standard.", "I can explain a valid conversion.", "I know speed matters, but honest proof matters more."]
   },
   {
-    id: "source-material-workflow",
-    title: "How to use the provided materials",
+    id: "conversation-flow",
+    title: "Conversation flow and offer control",
     minutes: 16,
-    sourceMaterials: [
-      "07_How to Use the Provided Materials.pdf",
-      "00_Welcome.pdf",
-      "04_Brosur_Chromonno.jpg",
-      "05_Catalog_Chromonno.pdf",
-      "06_Chromonno.xlsx",
-      "Video Tutorial.mp4"
-    ],
     body: [
-      "Do not dump every file on a prospect. The materials have an order. First understand the mission and role. Then start with a light, relevant opener. Only send the brochure, catalog, official link, or operational details after the prospect shows fit.",
-      "The brochure is for first-touch visual interest, especially for DMs and WhatsApp. The Chromonno catalog is for prospects who ask for details. The Chromonno workbook is an internal pricing and operational reference. The Blip relationship list and idea bank are research tools for finding and framing founder needs.",
-      "Your value is positioning. You should decide which material is useful, explain why it matters, and guide the person toward a clear next step."
+      "Do not start by dumping information. First understand the person, their business, their audience, or their problem. Then send a short opener, ask one useful question, and only share the official page or product details after the prospect shows fit.",
+      "For Chromonno, start with style and audience fit. For Blip, start with the founder's business problem. The right flow is: relevant person, personal opener, qualifying question, short explanation, official next step, logged outcome.",
+      "Your value is positioning. You decide what the prospect needs to understand, explain it simply, and guide the person toward a clear action without overwhelming them."
     ],
     keyActions: [
-      "Use light material first, detailed material second.",
-      "Ask a fit question before sending a long catalog or link.",
-      "Log which material you sent and what response it created."
+      "Start with a short message and one real detail.",
+      "Ask a fit question before sending links or longer information.",
+      "Log what you said, what they answered, and what next step you requested."
     ],
     practice: [
-      "Choose one Blip founder prospect and write which material you would use first.",
-      "Choose one Chromonno buyer prospect and write when you would send the brochure versus the catalog."
+      "Choose one Blip founder prospect and write the first question you would ask.",
+      "Choose one Chromonno buyer prospect and write the first style-fit question you would ask."
     ],
-    passStandard: "You can name every source file, explain what it is for, and explain when not to send it.",
+    passStandard: "You can explain the outreach flow without relying on attachments or long copied text.",
     redFlags: [
-      "Sending the catalog before knowing whether the buyer cares about clothing or audience fit.",
-      "Using the pricing workbook as a public sales sheet without context.",
-      "Sending huge files instead of starting a conversation."
+      "Sending long information before knowing whether the person is relevant.",
+      "Using pricing or product details without context.",
+      "Treating outreach as link-dropping instead of conversation."
     ],
-    checklist: ["I know the purpose of each source material.", "I will not send documents blindly.", "I can guide prospects from light material to a clear action."]
+    checklist: ["I know the conversation order.", "I will not overwhelm prospects.", "I can guide prospects from first reply to a clear action."]
   },
   {
     id: "blip-offer",
     title: "Blip offer and founder pain",
     minutes: 18,
-    sourceMaterials: ["08_Job.txt", "03_Insights_BlipCreativeWorks.pdf", "02_2000s_Ideas_BlipCreativeWorks.pdf"],
     body: [
       "Blip Creative Works sells Startup Growth Infrastructure. In simple words, Blip helps founders and organizations move from idea, draft, or confusion into clearer systems, better positioning, stronger operations, and practical go-to-market action.",
       "The best Blip prospects are founders, idea-stage teams, SMEs, student founders, startup clubs, operators, organizations, and local businesses that have a real problem: unclear offer, weak market readiness, no customer path, no operational system, no investor-ready story, or a product stuck in draft.",
@@ -145,40 +135,38 @@ export const trainingModules: TrainingModule[] = [
   },
   {
     id: "blip-research-database",
-    title: "Blip relationship list and idea bank",
+    title: "Blip prospect categories and idea angles",
     minutes: 18,
-    sourceMaterials: ["01_Relation_BlipCreativeWorks.pdf", "02_2000s_Ideas_BlipCreativeWorks.pdf"],
     body: [
-      "The Blip relationship document is a large prospect and ecosystem database. Use it to understand the type of companies, funds, studios, startups, and organizations that may belong in a growth ecosystem. Do not paste the list into messages.",
-      "The 2000s idea document is an idea bank. It includes many possible AI, web, business, finance, health, education, logistics, public-sector, marketplace, climate, agriculture, and operations concepts. Use it to spot problems and start intelligent founder conversations.",
-      "The correct use is research, not dumping. Read a prospect's product, match it to one idea category, then ask a question that shows you understand the opportunity or bottleneck."
+      "Strong Blip prospecting starts with categories, not random names. Useful categories include startup founders, early builders, SMEs, student founders, organizations, studios, funds, community operators, software products, local businesses, and teams trying to launch or improve an idea.",
+      "Use idea angles to spot problems: AI assistants, education tools, finance systems, health operations, marketplace products, logistics systems, public-sector tools, climate projects, agriculture systems, manufacturing automation, and customer-service workflows.",
+      "The correct use is research, not copying. Read a prospect's public product or business page, match it to one problem category, then ask a question that shows you understand the opportunity or bottleneck."
     ],
     keyActions: [
-      "Use the database to find company names and categories for research.",
-      "Use the idea bank to create problem-based openers.",
+      "Build lists by prospect category and business problem.",
+      "Use idea angles to create problem-based openers.",
       "Build prospect lists by category, not random names."
     ],
     practice: [
-      "Pick five categories from the idea bank and write one prospect type for each.",
-      "Turn one idea-bank line into a short discovery question for a founder."
+      "Pick five idea categories and write one prospect type for each.",
+      "Turn one idea angle into a short discovery question for a founder."
     ],
-    passStandard: "You can use the Blip source documents to generate targeted outreach angles without copying long text.",
+    passStandard: "You can generate targeted outreach angles from the prospect's real business problem without copying generic text.",
     redFlags: [
-      "Treating the relationship list as guaranteed warm contacts.",
       "Claiming Blip already works with a company unless admin confirms it.",
-      "Sending idea-bank text as if it is a custom proposal."
+      "Sending generic idea text as if it is a custom proposal.",
+      "Sourcing names without recording a likely business need."
     ],
-    checklist: ["I can use the relationship list safely.", "I can use the idea bank for angles.", "I will not claim unverified partnerships."]
+    checklist: ["I can build lists by category.", "I can use idea angles for smarter questions.", "I will not claim unverified partnerships."]
   },
   {
     id: "blip-insight-framing",
     title: "Blip strategic insight framing",
     minutes: 20,
-    sourceMaterials: ["03_Insights_BlipCreativeWorks.pdf"],
     body: [
-      "The Blip insight report teaches a useful sales narrative: many founders own assets, ideas, or early products that look valuable on paper but are not market-ready. The report calls this a gap between potential and readiness.",
+      "A useful Blip sales narrative is this: many founders own assets, ideas, or early products that look valuable on paper but are not market-ready. There is often a gap between potential and readiness.",
       "Important concepts to translate into simple language: draft assets need activation, market readiness matters, technical and operational gaps reduce value, and speed of execution protects momentum. For candidates, the practical point is simple: find founders whose idea is stuck and offer a structured next step.",
-      "Use this narrative carefully. It is not a promise that Blip will raise valuation. It is a way to ask better questions: What is still draft? What is blocking launch? What proof is missing? What system would help the founder move faster?"
+      "Use this narrative carefully. It is not a promise that Blip will raise valuation, revenue, funding, or market share. It is a way to ask better questions: What is still draft? What is blocking launch? What proof is missing? What system would help the founder move faster?"
     ],
     keyActions: [
       "Use readiness language: draft, stuck, unclear, not launched, low proof, weak system.",
@@ -201,20 +189,19 @@ export const trainingModules: TrainingModule[] = [
     id: "chromonno-brand-story",
     title: "Chromonno brand story and buyer fit",
     minutes: 18,
-    sourceMaterials: ["04_Brosur_Chromonno.jpg", "05_Catalog_Chromonno.pdf", "Mockup_Img.zip"],
     body: [
-      "Chromonno is a creative store focused on illustrated clothing and handmade-style products with artistic touch and humanitarian values. The catalog positions products around stories, values, personal meaning, and human connection.",
-      "The visible campaign message is that the April batch is open, with authentic design and premium quality. The mockups show koala-themed apparel, shirts, hoodies, jerseys, sneakers, slippers, and lifestyle product visuals.",
+      "Chromonno is a creative retail clothing brand focused on illustrated clothing, artistic product identity, and a positive values-led story. The product positioning is about stories, values, personal meaning, and human connection.",
+      "A current campaign message candidates can use carefully is that a new collection is open, with authentic design and premium quality. Product visuals show koala-themed apparel, shirts, hoodies, jerseys, sneakers, slippers, and lifestyle product examples.",
       "Best prospects include fashion buyers, creative product buyers, student communities, gift buyers, local shops, Instagram audiences, WhatsApp groups, event communities, and people who like playful animal art, positive style, or limited creative collections."
     ],
     keyActions: [
       "Lead with style fit and audience fit.",
-      "Use the brochure as a visual opener when the channel supports images.",
-      "Use catalog details only after the prospect asks to see product options."
+      "Use one relevant product visual when the channel supports images.",
+      "Share product details only after the prospect asks to see options."
     ],
     practice: [
       "Write three audience-fit questions for Chromonno.",
-      "Choose one mockup and describe the buyer it fits."
+      "Choose one product type and describe the buyer it fits."
     ],
     passStandard: "You can explain Chromonno as creative clothing with visual products, not as a vague fashion link.",
     redFlags: [
@@ -225,29 +212,28 @@ export const trainingModules: TrainingModule[] = [
     checklist: ["I can explain the Chromonno story.", "I know the main product categories.", "I can ask whether the style fits before sending links."]
   },
   {
-    id: "chromonno-catalog-products",
-    title: "Chromonno catalog product knowledge",
+    id: "chromonno-product-knowledge",
+    title: "Chromonno product knowledge",
     minutes: 22,
-    sourceMaterials: ["05_Catalog_Chromonno.pdf", "06_Chromonno.xlsx"],
     body: [
-      "The catalog includes a Koala Series with new arrivals, best sellers, special price products, and clearance items. Candidate-level product examples include shirts, nylon canvas shoes, polo shirts, breathable sneakers, pajama pants, hoodies, joggers, athletic apparel, zip hoodies, athletic tees, sweatshirts, pullover tops, letterman jackets, camp shirts, jerseys, sweatpants, fleece slippers, boxer briefs, and basketball jerseys.",
-      "The catalog presents free shipping across many displayed items. Product prices in the catalog and workbook are in EUR. The workbook has 47 product rows, a visible price range from about EUR 33 to EUR 280, and operational columns for business development, operations, production, shipping, platform fees, return fees, and donation.",
-      "When candidates explain products, they should be specific but careful. Use simple product benefits: casual wear, giftable style, playful koala design, comfortable fabric, active lifestyle, loungewear, sportswear, or shop/community fit. Do not invent fabric, stock, sizing, delivery date, or discounts beyond approved material."
+      "Chromonno includes a Koala Series with new arrivals, best sellers, special-price products, and clearance-style offers. Candidate-level product examples include shirts, nylon canvas shoes, polo shirts, breathable sneakers, pajama pants, hoodies, joggers, athletic apparel, zip hoodies, athletic tees, sweatshirts, pullover tops, letterman jackets, camp shirts, jerseys, sweatpants, fleece slippers, boxer briefs, and basketball jerseys.",
+      "Prices are shown in EUR on the official buying experience and may range from entry apparel around EUR 33 to higher-ticket items around EUR 280. Some product economics may include production, shipping, platform, return, operations, business development, and donation considerations. Candidates should not quote internal calculations as public buyer promises.",
+      "When candidates explain products, they should be specific but careful. Use simple product benefits: casual wear, giftable style, playful koala design, comfortable fabric when confirmed, active lifestyle, loungewear, sportswear, or shop/community fit. Do not invent fabric, stock, sizing, delivery date, or discounts beyond approved public information."
     ],
     keyActions: [
       "Know at least 10 product categories before outreach.",
-      "Use EUR prices only when you can point to the catalog or workbook reference.",
+      "Use EUR prices only when they match the current official brand page.",
       "Send the official Chromonno page for current purchase details."
     ],
     practice: [
-      "Pick three catalog products and write one buyer reason for each.",
+      "Pick three product types and write one buyer reason for each.",
       "Write a short reply to a shop owner asking, 'What kind of products are these?'"
     ],
     passStandard: "You can guide a buyer through product categories, price-range expectations, and official purchase next steps without inventing details.",
     redFlags: [
       "Quoting a price as final if the official brand page shows a different current price.",
-      "Inventing sizes, materials, or shipping timing.",
-      "Sending the internal workbook as a buyer-facing price sheet."
+      "Inventing sizes, fabric, stock, or shipping timing.",
+      "Sharing internal calculations with a buyer."
     ],
     checklist: ["I know the main Chromonno product types.", "I can explain the price reference carefully.", "I know the official page is the final purchase reference."]
   },
@@ -255,7 +241,6 @@ export const trainingModules: TrainingModule[] = [
     id: "track-selection-icp",
     title: "Track selection and ideal customer profile",
     minutes: 16,
-    sourceMaterials: ["08_Job.txt", "05_Catalog_Chromonno.pdf", "02_2000s_Ideas_BlipCreativeWorks.pdf"],
     body: [
       "Choose Blip if your network includes founders, student founders, operators, startup clubs, SMEs, organizations, builders, local businesses, or people working on new digital/business ideas.",
       "Choose Chromonno if your network includes fashion buyers, creative communities, local shops, campus groups, social media audiences, gift buyers, lifestyle content pages, or people who react well to visual products.",
@@ -282,7 +267,6 @@ export const trainingModules: TrainingModule[] = [
     id: "prospecting-system",
     title: "Prospecting system and list building",
     minutes: 22,
-    sourceMaterials: ["08_Job.txt", "01_Relation_BlipCreativeWorks.pdf"],
     body: [
       "The 7-day test requires serious volume, but volume must be organized. Build lists by source and segment: startup directories, Product Hunt, Indie Hackers, LinkedIn, local business areas, student clubs, Instagram pages, WhatsApp groups, events, and warm referrals.",
       "For each prospect, capture name, company, website, contact, channel, need, offer fit, message sent, reply, status, and next follow-up. Missing data makes admin review harder and weakens your credibility.",
@@ -309,14 +293,13 @@ export const trainingModules: TrainingModule[] = [
     id: "qualification-framework",
     title: "Qualification framework",
     minutes: 18,
-    sourceMaterials: ["00_Welcome.pdf", "07_How to Use the Provided Materials.pdf"],
     body: [
       "Qualification means checking fit before asking for action. For Blip, qualify the business problem: offer clarity, operations, launch readiness, go-to-market, customer acquisition, or stuck idea. For Chromonno, qualify audience fit: buyer type, style preference, community interest, shop relevance, gift demand, or product category.",
       "Use simple questions. What are you trying to improve? Who is the product or audience for? What would make this useful now? Who decides? What next step would be realistic?",
       "A good prospect does not need to say yes immediately. A good prospect gives useful information that lets you choose the right next step."
     ],
     keyActions: [
-      "Ask one qualifying question before sending detailed material.",
+      "Ask one qualifying question before sending detailed information.",
       "Record the answer in the need or notes field.",
       "Mark not fit when the need does not match."
     ],
@@ -333,39 +316,37 @@ export const trainingModules: TrainingModule[] = [
     checklist: ["I can qualify before pitching.", "I can record the need.", "I can mark not-fit prospects respectfully."]
   },
   {
-    id: "material-sharing",
-    title: "Material sharing sequence",
+    id: "information-sharing",
+    title: "Information sharing sequence",
     minutes: 18,
-    sourceMaterials: ["04_Brosur_Chromonno.jpg", "05_Catalog_Chromonno.pdf", "03_Insights_BlipCreativeWorks.pdf"],
     body: [
-      "The correct sequence is conversation first, material second. Start with a short personal message. If the prospect replies, ask a qualifying question. If fit is clear, send the smallest useful material. If interest grows, send the official page or catalog.",
-      "For Blip, use insight language lightly: draft assets, market readiness, operational gaps, time-to-value. For Chromonno, use visual materials: brochure first, catalog second, official brand page for purchase direction.",
-      "Every material send should have a reason and a next step. Example: 'Because you said your shop audience likes playful casual wear, this catalog may help you judge fit. Which category would your customers notice first?'"
+      "The correct sequence is conversation first, information second. Start with a short personal message. If the prospect replies, ask a qualifying question. If fit is clear, share the smallest useful explanation. If interest grows, send the official page for the next step.",
+      "For Blip, use insight language lightly: draft assets, market readiness, operational gaps, time-to-value. For Chromonno, use product and audience language: style fit first, product category second, official brand page for purchase direction.",
+      "Every link or product detail should have a reason and a next step. Example: 'Because you said your shop audience likes playful casual wear, these product categories may help you judge fit. Which category would your customers notice first?'"
     ],
     keyActions: [
       "Ask permission before sending long information.",
-      "Attach one material at a time.",
-      "Follow each material with one question."
+      "Share one idea, link, or product category at a time.",
+      "Follow each explanation with one question."
     ],
     practice: [
-      "Write a permission ask before sending the Chromonno catalog.",
+      "Write a permission ask before sending the official Chromonno page.",
       "Write a Blip insight follow-up after a founder describes a launch problem."
     ],
-    passStandard: "You can explain why you sent each material and what response you wanted.",
+    passStandard: "You can explain why you shared each piece of information and what response you wanted.",
     redFlags: [
-      "Sending all documents at once.",
+      "Sending too much information at once.",
       "Dropping official links without context.",
-      "Using materials as a substitute for conversation."
+      "Using links as a substitute for conversation."
     ],
-    checklist: ["I can use a light-to-detailed material sequence.", "I can ask before sending long files.", "I can attach a next-step question."]
+    checklist: ["I can use a light-to-detailed information sequence.", "I can ask before sending long information.", "I can attach a next-step question."]
   },
   {
     id: "ten-step-sales-process",
     title: "10-step sales process",
     minutes: 24,
-    sourceMaterials: ["07_How to Use the Provided Materials.pdf", "00_Welcome.pdf"],
     body: [
-      "Step 1: choose a track. Step 2: define one prospect segment. Step 3: source prospects. Step 4: research one true detail. Step 5: send a short personal opener. Step 6: ask a qualifying question. Step 7: match the need to Blip or Chromonno. Step 8: send the right material or official page. Step 9: ask for a clear next step. Step 10: log outcome and proof.",
+      "Step 1: choose a track. Step 2: define one prospect segment. Step 3: source prospects. Step 4: research one true detail. Step 5: send a short personal opener. Step 6: ask a qualifying question. Step 7: match the need to Blip or Chromonno. Step 8: share the right explanation or official page. Step 9: ask for a clear next step. Step 10: log outcome and proof.",
       "The process is a loop. If the prospect does not reply, follow up respectfully. If they object, answer honestly. If they are not fit, stop. If they are warm, move toward a commitment, transaction, referral, or handoff.",
       "Do not skip the research and qualification steps. They protect the brand and improve conversion quality."
     ],
@@ -390,7 +371,6 @@ export const trainingModules: TrainingModule[] = [
     id: "channel-playbooks",
     title: "Channel playbooks",
     minutes: 24,
-    sourceMaterials: ["08_Job.txt", "04_Brosur_Chromonno.jpg"],
     body: [
       "LinkedIn works best for founders, operators, organizations, and professional buyers. Email works when you have a public business contact and a clear subject. WhatsApp works for warm or local contacts when appropriate. Instagram works for Chromonno visual buyers and communities. Product Hunt, Indie Hackers, and startup directories work for Blip founder sourcing.",
       "Local business visits can work for shops, salons, community stores, school clubs, coworking spaces, and event organizers. Keep the first question short and ask for the owner, manager, buyer, or best contact method.",
@@ -417,7 +397,6 @@ export const trainingModules: TrainingModule[] = [
     id: "personalization-anti-spam",
     title: "Personalization and anti-spam",
     minutes: 20,
-    sourceMaterials: ["07_How to Use the Provided Materials.pdf", "08_Job.txt"],
     body: [
       "High activity is not permission to spam. Every message must be personalized, honest, respectful, and relevant. Personalization does not need to be long. One real detail is enough if it proves you looked at the prospect.",
       "Useful personalization details include company name, launch, product category, founder post, local area, audience type, shop style, event, student club, pain point, or visible product feature.",
@@ -444,10 +423,9 @@ export const trainingModules: TrainingModule[] = [
     id: "faq-objection-handling",
     title: "FAQ and objection handling",
     minutes: 22,
-    sourceMaterials: ["09_Faq.pdf", "08_Job.txt"],
     body: [
       "Common questions include: Can I try the product first? Which platform should I target? Do I build my own prospect list? Is compensation only customer-based? Are there tools provided? Is there commission for the first customers?",
-      "Approved answers are simple. For Chromonno, physical samples cannot be shipped to candidates because of shipping timing, so use the online brand page, visuals, brochure, catalog, and approved materials. For Blip, focus on idea-stage startup founders and practical growth infrastructure. Build your own creative prospect list, but use provided sources for guidance.",
+      "Approved answers are simple. For Chromonno, physical samples cannot be shipped to candidates because of shipping timing, so use the online brand page, approved product visuals, and approved product information. For Blip, focus on idea-stage startup founders and practical growth infrastructure. Build your own creative prospect list using public channels and your real network.",
       "Compensation is performance-based. Blip conversions use a 20 percent performance incentive and Chromonno conversions use a 10 percent performance incentive, only after admin verification. Candidates should start with free outreach methods during the test."
     ],
     keyActions: [
@@ -471,7 +449,6 @@ export const trainingModules: TrainingModule[] = [
     id: "local-outreach-safety",
     title: "Local outreach safety",
     minutes: 16,
-    sourceMaterials: ["08_Job.txt", "09_Faq.pdf"],
     body: [
       "Local outreach is allowed only in safe, public, business-appropriate settings. This is especially important for students and younger candidates. Do not enter private homes, unsafe locations, restricted areas, or places where you do not have permission.",
       "A local visit is not a hard pitch. It is a short request for the right contact. Ask whether the owner, manager, buyer, club leader, or organizer is available. If they are busy or not interested, thank them and leave.",
@@ -498,7 +475,6 @@ export const trainingModules: TrainingModule[] = [
     id: "tracker-proof-reporting",
     title: "Tracker, proof, and reporting",
     minutes: 22,
-    sourceMaterials: ["06_Chromonno.xlsx", "00_Welcome.pdf"],
     body: [
       "The tracker is your proof of work. It should show what you sourced, who you contacted, what you said, what they replied, what status they are in, and what follow-up is next. Admins should be able to audit your work without guessing.",
       "Daily reports need numbers and learning. Report prospects sourced, people contacted, conversations, conversions, best channel, biggest objection, what worked, what needs help, proof files, and tracker link.",
@@ -525,7 +501,6 @@ export const trainingModules: TrainingModule[] = [
     id: "seven-day-execution",
     title: "7-day execution plan",
     minutes: 20,
-    sourceMaterials: ["00_Welcome.pdf", "07_How to Use the Provided Materials.pdf"],
     body: [
       "Day 1 is setup: complete training, accept terms, choose track, download tracker, and build the first list. Day 2 is first outreach: test at least three variations, personalize every message, and log all contacts. Day 3 is follow-up and qualification.",
       "Day 4 is moving conversations forward: match need to offer, send relevant links only after fit is clear, and ask for a next step. Day 5 is closing: move warm conversations to commitment or transaction, submit proof, and ask for referrals. Day 6 is recovery: improve weak scripts and double down on the best channel. Day 7 is final report.",
@@ -552,10 +527,9 @@ export const trainingModules: TrainingModule[] = [
     id: "conversion-commission",
     title: "Conversion and commission rules",
     minutes: 18,
-    sourceMaterials: ["08_Job.txt", "09_Faq.pdf", "06_Chromonno.xlsx"],
     body: [
       "A conversion is valid only when it can be verified. It may be a transaction, commitment, partnership step, or usage intent, but it must show real need and a clear next action. Interest alone is not a conversion.",
-      "Blip conversions use a 20 percent performance incentive. Chromonno conversions use a 10 percent performance incentive. The Chromonno workbook shows internal business development and operational calculations, but candidate-facing commission status remains estimated until admin approval.",
+      "Blip conversions use a 20 percent performance incentive. Chromonno conversions use a 10 percent performance incentive. Candidate-facing commission status remains estimated until admin approval.",
       "No joining fee. No purchase requirement. No guaranteed income. Commission depends on verified conversion quality and admin review."
     ],
     keyActions: [
@@ -647,75 +621,6 @@ export const localOutreachGuidance = [
   "Door-to-door public business outreach: only visit public business locations, never private homes, and leave immediately if asked."
 ];
 
-export const sourceMaterials = [
-  {
-    file: "00_Welcome.pdf",
-    title: "Welcome and competency test",
-    use: "Use first. It defines the 7-day practical assessment, valid conversion standard, no-fee rule, and evaluation criteria.",
-    whenToShare: "Do not send to prospects. Use it to understand your own role and test requirements."
-  },
-  {
-    file: "01_Relation_BlipCreativeWorks.pdf",
-    title: "Blip relationship and ecosystem database",
-    use: "Use as research material for startup, organization, investor, studio, and ecosystem prospecting.",
-    whenToShare: "Do not paste or imply verified partnerships. Use it internally to learn prospect categories."
-  },
-  {
-    file: "02_2000s_Ideas_BlipCreativeWorks.pdf",
-    title: "Blip founder idea bank",
-    use: "Use to spark problem-based conversations across AI, web, finance, operations, healthcare, education, logistics, public sector, environment, agriculture, and marketplace ideas.",
-    whenToShare: "Do not send the full idea bank first. Convert one relevant idea into one simple question."
-  },
-  {
-    file: "03_Insights_BlipCreativeWorks.pdf",
-    title: "Blip strategic insight report",
-    use: "Use to explain draft assets, market readiness, operational gaps, time-to-value, and why founders need structured execution.",
-    whenToShare: "Share ideas from it only after a founder has described a matching problem."
-  },
-  {
-    file: "04_Brosur_Chromonno.jpg",
-    title: "Chromonno brochure image",
-    use: "Use as a light visual opener for DMs, WhatsApp, Instagram, and warm retail conversations.",
-    whenToShare: "Share after a short context message. Ask whether the style fits their audience."
-  },
-  {
-    file: "05_Catalog_Chromonno.pdf",
-    title: "Chromonno catalog",
-    use: "Use when a prospect asks for product details, categories, visual options, or style examples.",
-    whenToShare: "Send after fit is clear, not as the first cold message."
-  },
-  {
-    file: "06_Chromonno.xlsx",
-    title: "Chromonno operational/pricing reference",
-    use: "Use internally for price range, product rows, business development calculation, operational cost, production, shipping, and donation reference.",
-    whenToShare: "Do not treat as a public buyer quote sheet. Point buyers to the official brand page for current purchase details."
-  },
-  {
-    file: "07_How to Use the Provided Materials.pdf",
-    title: "Material workflow guide",
-    use: "Use to follow the correct flow: identify, start conversation, qualify, introduce solution, share relevant material, guide toward conversion.",
-    whenToShare: "Internal candidate guide."
-  },
-  {
-    file: "09_Faq.pdf",
-    title: "Candidate FAQ",
-    use: "Use to answer product sample, prospecting channel, prospect list, compensation, first customers, and tool questions.",
-    whenToShare: "Internal candidate guide. Use approved answers in your own words."
-  },
-  {
-    file: "Video Tutorial.mp4",
-    title: "Video tutorial",
-    use: "Use as a walkthrough companion to the documents and product materials.",
-    whenToShare: "Internal candidate training only unless admin approves sharing."
-  },
-  {
-    file: "Mockup_Img.zip",
-    title: "Chromonno mockup image package",
-    use: "Use for approved product visuals: lifestyle, on-person apparel, shoes, slippers, and product context images.",
-    whenToShare: "Share only relevant images. Do not send the full package unless the prospect requested visual options."
-  }
-];
-
 export const blipIdeaCategories = [
   "AI websites and assistants for education, culture, counseling, and community guidance",
   "Startup dashboards for operational readiness, data injection, and market launch progress",
@@ -734,7 +639,7 @@ export const chromonnoProductGuide = [
     category: "Entry visual item",
     products: "Humanity limited-edition shirt, Gildan shirt, comfort shirt",
     buyerFit: "Gift buyers, student communities, casual wear buyers, people who respond to mission and visual art",
-    notes: "Catalog shows free shipping language. Use official page for live purchase details."
+    notes: "Use the official brand page for live purchase details and current shipping language."
   },
   {
     category: "Casual apparel",
@@ -746,13 +651,13 @@ export const chromonnoProductGuide = [
     category: "Comfort and loungewear",
     products: "Pajama pants, sweatpants, joggers, hoodies, zip hoodies, crewneck sweatshirt",
     buyerFit: "Gift buyers, comfort wear audiences, lifestyle communities, casual fashion shops",
-    notes: "Use comfort language only from the catalog: soft, lightweight, cozy, relaxed, casual."
+    notes: "Use comfort language only when it is visible or approved: soft, lightweight, cozy, relaxed, casual."
   },
   {
     category: "Footwear",
     products: "Nylon canvas shoes, breathable sneakers, classic sneakers, slide sandals, Deco slides, fleece slippers",
     buyerFit: "Fashion buyers, online style audiences, creative footwear buyers, shop owners testing visual products",
-    notes: "Do not promise physical samples to candidates. Use mockups, product visuals, and official page."
+    notes: "Do not promise physical samples to candidates. Use approved product visuals and the official page."
   },
   {
     category: "Premium or special-price items",
@@ -765,7 +670,7 @@ export const chromonnoProductGuide = [
 export const faqPlaybook = [
   {
     question: "Can I try the product before selling it?",
-    answer: "For Chromonno, physical samples cannot be shipped to candidates because of shipping timing. Use the online brand page, product visuals, brochure, catalog, and approved materials."
+    answer: "For Chromonno, physical samples cannot be shipped to candidates because of shipping timing. Use the online brand page, approved product visuals, and approved product information."
   },
   {
     question: "Which platform should I target?",
@@ -852,7 +757,7 @@ const baseScripts: ScriptTemplate[] = [
     stage: "cold",
     title: "Chromonno clothing buyer outreach",
     template:
-      "Hi [Name], I thought your audience/shop/community might fit Chromonno's creative clothing collection. Would you be open to seeing the catalog and sharing what styles your customers usually like?",
+      "Hi [Name], I thought your audience/shop/community might fit Chromonno's creative clothing collection. Would you be open to seeing a quick product overview and sharing what styles your customers usually like?",
     explanation: "Asks for permission and starts with audience fit.",
     active: true
   },
@@ -901,25 +806,25 @@ const baseScripts: ScriptTemplate[] = [
     active: true
   },
   {
-    id: "chromonno-brochure-permission",
+    id: "chromonno-visual-permission",
     track: "chromonno",
     channel: "instagram",
     stage: "cold",
-    title: "Chromonno brochure permission ask",
+    title: "Chromonno visual permission ask",
     template:
       "Hi [Name], I noticed [specific audience/shop/style detail]. Chromonno has a creative koala-themed clothing collection. Would it be okay if I sent one quick visual so you can judge whether the style fits your audience?",
-    explanation: "Asks permission before sending the brochure and keeps the first step light.",
+    explanation: "Asks permission before sending a visual and keeps the first step light.",
     active: true
   },
   {
-    id: "chromonno-catalog-send",
+    id: "chromonno-product-overview",
     track: "chromonno",
     channel: "whatsapp",
     stage: "follow_up",
-    title: "Chromonno catalog send",
+    title: "Chromonno product overview send",
     template:
-      "Thanks, [Name]. Since you said [specific audience/style need], the catalog may help you review the product categories. It includes shirts, hoodies, jerseys, sneakers, slippers, and other creative apparel. Which category would your customers notice first?",
-    explanation: "Sends detailed material after fit and asks a product-category question.",
+      "Thanks, [Name]. Since you said [specific audience/style need], this product overview may help you review the categories. Chromonno includes shirts, hoodies, jerseys, sneakers, slippers, and other creative apparel. Which category would your customers notice first?",
+    explanation: "Shares product detail after fit and asks a product-category question.",
     active: true
   },
   {
@@ -929,7 +834,7 @@ const baseScripts: ScriptTemplate[] = [
     stage: "objection",
     title: "Chromonno price clarity",
     template:
-      "Good question. The catalog and internal pricing reference use EUR and include production, shipping, platform, operation, and donation considerations. For the current buyer-facing price and purchase step, please use the official Chromonno brand page: [Chromonno link].",
+      "Good question. Chromonno prices use EUR and may include production, shipping, platform, operation, and donation considerations. For the current buyer-facing price and purchase step, please use the official Chromonno brand page: [Chromonno link].",
     explanation: "Keeps pricing careful and points to the official page instead of inventing a quote.",
     active: true
   },
@@ -940,7 +845,7 @@ const baseScripts: ScriptTemplate[] = [
     stage: "objection",
     title: "Objection: I need to try the product first.",
     template:
-      "That makes sense. For Chromonno, physical samples cannot be shipped to candidates because of shipping timing. For outreach, we use the online product visuals, official brand page, brochure, and approved materials. I can still guide you through the product details clearly.",
+      "That makes sense. For Chromonno, physical samples cannot be shipped to candidates because of shipping timing. For outreach, we use approved product visuals, official brand page, and approved product information. I can still guide you through the product details clearly.",
     explanation: "Answers directly without inventing sample access.",
     active: true
   },

@@ -11,7 +11,6 @@ import {
   localOutreachGuidance,
   prospectingResources,
   scriptTemplates,
-  sourceMaterials,
   termsChecklist,
   trainingModules
 } from "../src/data/defaults";
@@ -78,12 +77,6 @@ async function seedContent() {
   await setBlock("prospecting-resources", "Prospecting resources", "resources", prospectingResources.map((item) => `${item.title}: ${item.url}`).join("\n"));
   await setBlock("local-outreach", "Local outreach guidance", "resources", localOutreachGuidance.join("\n"));
   await setBlock(
-    "source-material-playbook",
-    "Provided material playbook",
-    "resources",
-    sourceMaterials.map((item) => `${item.title} (${item.file})\nUse: ${item.use}\nWhen to share: ${item.whenToShare}`).join("\n\n")
-  );
-  await setBlock(
     "blip-idea-categories",
     "Blip idea-bank categories",
     "training",
@@ -105,8 +98,6 @@ async function seedContent() {
   for (const module of trainingModules) {
     const body = [
       ...module.body,
-      module.sourceMaterials?.length ? "\nSource materials:" : "",
-      ...(module.sourceMaterials || []).map((item) => `- ${item}`),
       module.keyActions?.length ? "\nWhat to do:" : "",
       ...(module.keyActions || []).map((item) => `- ${item}`),
       module.practice?.length ? "\nPractice drill:" : "",
