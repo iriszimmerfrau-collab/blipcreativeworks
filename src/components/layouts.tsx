@@ -11,6 +11,7 @@ import {
   LogOut,
   MessageSquare,
   Settings,
+  Send,
   ShieldCheck,
   Target,
   Users
@@ -56,7 +57,8 @@ const candidateItems = [
   { to: "/candidate/test", label: "7-day test", icon: Gauge },
   { to: "/candidate/daily-report", label: "Daily report", icon: CheckSquare },
   { to: "/candidate/conversions", label: "Conversions", icon: BarChart3 },
-  { to: "/candidate/resources", label: "Resources", icon: FileText }
+  { to: "/candidate/resources", label: "Resources", icon: FileText },
+  { to: "/candidate/final-submit", label: "Final submit", icon: Send }
 ];
 
 const adminItems = [
@@ -84,12 +86,14 @@ export function CandidateLayout() {
       <header className="sticky top-0 z-20 border-b border-borderline bg-ink/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
           <BrandHeader />
-          <div className="hidden items-center gap-3 md:flex">
-            <Badge tone={candidate?.termsAcceptedAt ? "good" : "warn"}>{candidate?.termsAcceptedAt ? "Terms accepted" : "Terms pending"}</Badge>
-            <Badge tone="info">{trackLabel(candidate?.selectedTracks)}</Badge>
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex md:items-center md:gap-3">
+              <Badge tone={candidate?.termsAcceptedAt ? "good" : "warn"}>{candidate?.termsAcceptedAt ? "Terms accepted" : "Terms pending"}</Badge>
+              <Badge tone="info">{trackLabel(candidate?.selectedTracks)}</Badge>
+            </div>
             <Button variant="ghost" onClick={logout}>
               <LogOut className="h-4 w-4" />
-              Sign out
+              <span className="hidden md:inline">Sign out</span>
             </Button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDoc, collection, doc, increment, orderBy, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { CheckCircle2, ClipboardCheck, ExternalLink, MessageSquare, Save, Send, UserPlus, XCircle } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -246,16 +246,20 @@ export function AdminCandidateDetailPage() {
   const { id } = useParams();
   const { profile } = useAuth();
   const { data: candidate } = useDocument<CandidateAdmin>("candidates", id);
-  const { data: progress } = useCollectionData<TrainingProgress>("trainingProgress", id ? [where("candidateId", "==", id)] : [], Boolean(id));
-  const { data: prospects } = useCollectionData<Prospect>("prospects", id ? [where("candidateId", "==", id)] : [], Boolean(id));
-  const { data: reports } = useCollectionData<DailyReport>("dailyReports", id ? [where("candidateId", "==", id), orderBy("testDay", "asc")] : [], Boolean(id));
-  const { data: conversions } = useCollectionData<Conversion>("conversions", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id));
-  const { data: commissions } = useCollectionData<Commission>("commissions", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id));
-  const { data: notes } = useCollectionData<{ body: string; createdAt: unknown; createdBy: string }>("managerNotes", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id));
-  const { data: auditLogs } = useCollectionData<{ event: string; details?: Record<string, unknown>; createdAt: unknown }>("auditLogs", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id));
+  const { data: progress } = useCollectionData<TrainingProgress>("trainingProgress", id ? [where("candidateId", "==", id)] : [], Boolean(id), [id]);
+  const { data: prospects } = useCollectionData<Prospect>("prospects", id ? [where("candidateId", "==", id)] : [], Boolean(id), [id]);
+  const { data: reports } = useCollectionData<DailyReport>("dailyReports", id ? [where("candidateId", "==", id), orderBy("testDay", "asc")] : [], Boolean(id), [id]);
+  const { data: conversions } = useCollectionData<Conversion>("conversions", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id), [id]);
+  const { data: commissions } = useCollectionData<Commission>("commissions", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id), [id]);
+  const { data: notes } = useCollectionData<{ body: string; createdAt: unknown; createdBy: string }>("managerNotes", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id), [id]);
+  const { data: auditLogs } = useCollectionData<{ event: string; details?: Record<string, unknown>; createdAt: unknown }>("auditLogs", id ? [where("candidateId", "==", id), orderBy("createdAt", "desc")] : [], Boolean(id), [id]);
   const [tab, setTab] = useState("overview");
   const [note, setNote] = useState("");
-  const [score, setScore] = useState(candidate?.score || 0);
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    if (candidate?.score !== undefined) setScore(candidate.score);
+  }, [candidate?.score]);
 
   if (!candidate) {
     return <EmptyState title="Candidate not found" body="This candidate record does not exist or you do not have access." />;

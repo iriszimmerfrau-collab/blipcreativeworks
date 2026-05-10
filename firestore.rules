@@ -28,12 +28,46 @@ service cloud.firestore {
       return signedIn() && resource.data.candidateId == request.auth.uid;
     }
 
-    function onlyCandidateSafeCommissionFields() {
-      return request.resource.data.diff(resource.data).changedKeys().hasOnly([
-        'status',
-        'adminNotes',
-        'updatedAt'
-      ]) == false;
+    function candidateCreateAllowed(candidateId) {
+      return isOwner(candidateId)
+        && request.resource.data.uid == candidateId
+        && request.resource.data.status in ['invited', 'terms_pending', 'training']
+        && request.resource.data.keys().hasOnly([
+          'uid',
+          'fullName',
+          'email',
+          'phone',
+          'location',
+          'ageRange',
+          'roleLabel',
+          'selectedTracks',
+          'status',
+          'createdAt',
+          'updatedAt'
+        ]);
+    }
+
+    function candidateUpdateAllowed(candidateId) {
+      return isOwner(candidateId)
+        && request.resource.data.uid == candidateId
+        && resource.data.uid == candidateId
+        && request.resource.data.diff(resource.data).changedKeys().hasOnly([
+          'fullName',
+          'email',
+          'phone',
+          'location',
+          'ageRange',
+          'roleLabel',
+          'selectedTracks',
+          'status',
+          'testStartDate',
+          'currentTestDay',
+          'termsAcceptedAt',
+          'privacyAcceptedAt',
+          'updatedAt'
+        ])
+        && (!request.resource.data.diff(resource.data).changedKeys().hasAny(['status'])
+          || request.resource.data.status in ['terms_pending', 'training', 'active_test', 'final_submitted']);
     }
 
     match /users/{userId} {
@@ -48,18 +82,9 @@ service cloud.firestore {
 
     match /candidates/{candidateId} {
       allow read: if isOwner(candidateId) || isAdmin();
-      allow create: if isOwner(candidateId) || isAdmin();
+      allow create: if candidateCreateAllowed(candidateId) || isAdmin();
       allow update: if isAdmin()
-        || (isOwner(candidateId)
-          && request.resource.data.uid == resource.data.uid
-          && (!request.resource.data.diff(resource.data).changedKeys().hasAny(['status'])
-            || request.resource.data.status in ['terms_pending', 'training', 'active_test', 'final_submitted'])
-          && !request.resource.data.diff(resource.data).changedKeys().hasAny([
-            'assignedManagerId',
-            'score',
-            'riskFlags',
-            'managerOwner'
-          ]));
+        || candidateUpdateAllowed(candidateId);
       allow delete: if isAdmin();
     }
 
@@ -127,7 +152,7 @@ service cloud.firestore {
     }
 
     match /scriptTemplates/{scriptId} {
-      allow read: if signedIn() && resource.data.active == true || isAdmin();
+      allow read: if (signedIn() && resource.data.active == true) || isAdmin();
       allow write: if isAdmin();
     }
 

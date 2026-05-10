@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   Upload
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -69,6 +69,12 @@ export function CandidateIntakePage() {
     }
   });
   const selected = form.watch("selectedTracks");
+
+  useEffect(() => {
+    if (candidate?.uid) {
+      navigate("/candidate/welcome", { replace: true });
+    }
+  }, [candidate?.uid, navigate]);
 
   async function submit(values: CandidateIntakeInput) {
     await saveCandidateIntake(values);
@@ -201,15 +207,18 @@ export function TermsPage() {
   async function accept() {
     if (!candidate || !allChecked) return;
     setSaving(true);
-    await updateDoc(doc(db, "candidates", candidate.uid), {
-      termsAcceptedAt: serverTimestamp(),
-      privacyAcceptedAt: serverTimestamp(),
-      status: candidate.status === "invited" || candidate.status === "terms_pending" ? "training" : candidate.status,
-      updatedAt: serverTimestamp()
-    });
-    await addAudit(candidate.uid, "terms_accepted", { checklistCount: termsChecklist.length });
-    setSaving(false);
-    navigate("/candidate/training");
+    try {
+      await updateDoc(doc(db, "candidates", candidate.uid), {
+        termsAcceptedAt: serverTimestamp(),
+        privacyAcceptedAt: serverTimestamp(),
+        status: candidate.status === "invited" || candidate.status === "terms_pending" ? "training" : candidate.status,
+        updatedAt: serverTimestamp()
+      });
+      await addAudit(candidate.uid, "terms_accepted", { checklistCount: termsChecklist.length });
+      navigate("/candidate/training");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -257,7 +266,8 @@ export function TrainingPage() {
   const { data: progress } = useCollectionData<TrainingProgress>(
     "trainingProgress",
     candidate ? [where("candidateId", "==", candidate.uid)] : [],
-    Boolean(candidate)
+    Boolean(candidate),
+    [candidate?.uid]
   );
   const completed = new Set(progress.filter((item) => item.completed).map((item) => item.moduleId));
   const completion = percent(completed.size, trainingModules.length);
@@ -365,12 +375,15 @@ export function ChooseTrackPage() {
   async function save() {
     if (!candidate || selected.length === 0) return;
     setSaving(true);
-    await updateDoc(doc(db, "candidates", candidate.uid), {
-      selectedTracks: selected,
-      updatedAt: serverTimestamp()
-    });
-    await addAudit(candidate.uid, "track_changed", { from: candidate.selectedTracks, to: selected });
-    setSaving(false);
+    try {
+      await updateDoc(doc(db, "candidates", candidate.uid), {
+        selectedTracks: selected,
+        updatedAt: serverTimestamp()
+      });
+      await addAudit(candidate.uid, "track_changed", { from: candidate.selectedTracks, to: selected });
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -622,8 +635,8 @@ const prospectSchema = z.object({
 
 export function TrackerPage() {
   const { candidate } = useAuth();
-  const constraints = useMemo(() => candidate ? [where("candidateId", "==", candidate.uid), orderBy("updatedAt", "desc")] : [], [candidate]);
-  const { data: prospects } = useCollectionData<Prospect>("prospects", constraints, Boolean(candidate));
+  const constraints = useMemo(() => candidate ? [where("candidateId", "==", candidate.uid), orderBy("updatedAt", "desc")] : [], [candidate?.uid]);
+  const { data: prospects } = useCollectionData<Prospect>("prospects", constraints, Boolean(candidate), [candidate?.uid]);
   const [preview, setPreview] = useState<ImportPreview | null>(null);
   const [importing, setImporting] = useState(false);
   const form = useForm<z.infer<typeof prospectSchema>>({
@@ -651,10 +664,12 @@ export function TrackerPage() {
     if (!candidate || !preview) return;
     setImporting(true);
     const existing = new Set(prospects.map((prospect) => `${prospect.contact.toLowerCase()}|${prospect.company.toLowerCase()}`));
-    const batch = writeBatch(db);
-    preview.validRows
-      .filter((row) => !existing.has(`${row.contact.toLowerCase()}|${row.company.toLowerCase()}`))
-      .forEach((row) => {
+    const newRows = preview.validRows.filter((row) => !existing.has(`${row.contact.toLowerCase()}|${row.company.toLowerCase()}`));
+    const chunkSize = 450;
+    for (let i = 0; i < newRows.length; i += chunkSize) {
+      const chunk = newRows.slice(i, i + chunkSize);
+      const batch = writeBatch(db);
+      chunk.forEach((row) => {
         const ref = doc(collection(db, "prospects"));
         batch.set(ref, cleanRecord({
           ...row,
@@ -663,7 +678,8 @@ export function TrackerPage() {
           updatedAt: serverTimestamp()
         }));
       });
-    await batch.commit();
+      await batch.commit();
+    }
     await addAudit(candidate.uid, "tracker_imported", { validRows: preview.validRows.length, errors: preview.errors.length });
     setPreview(null);
     setImporting(false);
@@ -802,10 +818,10 @@ function DailyTarget({ label, value, target }: { label: string; value: number; t
 
 export function TestDashboardPage() {
   const { candidate } = useAuth();
-  const { data: reports } = useCollectionData<DailyReport>("dailyReports", candidate ? [where("candidateId", "==", candidate.uid)] : [], Boolean(candidate));
-  const { data: prospects } = useCollectionData<Prospect>("prospects", candidate ? [where("candidateId", "==", candidate.uid)] : [], Boolean(candidate));
-  const { data: conversions } = useCollectionData<Conversion>("conversions", candidate ? [where("candidateId", "==", candidate.uid)] : [], Boolean(candidate));
-  const { data: notes } = useCollectionData<{ candidateId: string; body: string; createdAt: unknown }>("managerNotes", candidate ? [where("candidateId", "==", candidate.uid), orderBy("createdAt", "desc")] : [], Boolean(candidate));
+  const { data: reports } = useCollectionData<DailyReport>("dailyReports", candidate ? [where("candidateId", "==", candidate.uid)] : [], Boolean(candidate), [candidate?.uid]);
+  const { data: prospects } = useCollectionData<Prospect>("prospects", candidate ? [where("candidateId", "==", candidate.uid)] : [], Boolean(candidate), [candidate?.uid]);
+  const { data: conversions } = useCollectionData<Conversion>("conversions", candidate ? [where("candidateId", "==", candidate.uid)] : [], Boolean(candidate), [candidate?.uid]);
+  const { data: notes } = useCollectionData<{ candidateId: string; body: string; createdAt: unknown }>("managerNotes", candidate ? [where("candidateId", "==", candidate.uid), orderBy("createdAt", "desc")] : [], Boolean(candidate), [candidate?.uid]);
   const currentDay = candidate?.currentTestDay || 1;
   const today = reports.find((report) => report.testDay === currentDay);
 
@@ -959,8 +975,8 @@ const conversionSchema = z.object({
 export function ConversionsPage() {
   const { candidate } = useAuth();
   const [files, setFiles] = useState<FileList | null>(null);
-  const { data: conversions } = useCollectionData<Conversion>("conversions", candidateQuery(candidate?.uid), Boolean(candidate));
-  const { data: commissions } = useCollectionData<Commission>("commissions", candidateQuery(candidate?.uid), Boolean(candidate));
+  const { data: conversions } = useCollectionData<Conversion>("conversions", candidateQuery(candidate?.uid), Boolean(candidate), [candidate?.uid]);
+  const { data: commissions } = useCollectionData<Commission>("commissions", candidateQuery(candidate?.uid), Boolean(candidate), [candidate?.uid]);
   const form = useForm<z.infer<typeof conversionSchema>>({
     resolver: zodResolver(conversionSchema),
     defaultValues: { track: "blip", conversionType: "commitment" }
@@ -1143,7 +1159,9 @@ const finalSchema = z.object({
 export function FinalSubmitPage() {
   const { candidate } = useAuth();
   const [files, setFiles] = useState<FileList | null>(null);
+  const [submitted, setSubmitted] = useState(false);
   const form = useForm<z.infer<typeof finalSchema>>({ resolver: zodResolver(finalSchema), defaultValues: { totalProspects: 0, totalContacts: 0, totalConversations: 0, totalConversions: 0 } });
+  const alreadySubmitted = candidate?.status === "final_submitted";
 
   async function submit(values: z.infer<typeof finalSchema>) {
     if (!candidate) return;
@@ -1158,6 +1176,23 @@ export function FinalSubmitPage() {
     }));
     await updateDoc(doc(db, "candidates", candidate.uid), { status: "final_submitted", updatedAt: serverTimestamp() });
     await addAudit(candidate.uid, "final_submission_submitted", values);
+    setSubmitted(true);
+  }
+
+  if (submitted || alreadySubmitted) {
+    return (
+      <>
+        <PageHeader eyebrow="Final submission" title="Your final report has been submitted" />
+        <Card>
+          <div className="flex flex-col items-center gap-4 py-8 text-center">
+            <CheckCircle2 className="h-12 w-12 text-green" />
+            <h2 className="text-2xl font-semibold">Submission complete</h2>
+            <p className="max-w-lg text-sm leading-6 text-muted">Your final report, tracker, and proof files are now available for admin review. You will be notified of the evaluation result.</p>
+            <Link to="/candidate/test"><Button variant="secondary">Back to test dashboard</Button></Link>
+          </div>
+        </Card>
+      </>
+    );
   }
 
   return (
